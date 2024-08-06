@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+      .text {
+        font-size: clamp(100px, 40vw, 400px);
+        font-weight: bold;
+        transition: filter 0.2s ease-in-out;
+        padding: 20px;
+      }
+
+      button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="text" id="text">😎</h1>
+    <button>Включить гироскоп</button>
+
+    <script>
+      const textElement = document.getElementById("text");
+      let timeout = null;
+      let lastUpdate = Date.now();
+      let blurValue = 0;
+      window.addEventListener("deviceorientation", function (event) {
+        const value = Math.abs(((event.beta - 90) / 180) * 20);
+        if (Date.now() - lastUpdate > 200) {
+          lastUpdate = Date.now();
+          textElement.style.filter = `blur(${value}px)`;
+        }
+      });
+
+      document.querySelector("button").addEventListener("click", () => {
+        DeviceOrientationEvent.requestPermission();
+      });
+    </script>
+  </body>
+</html>
+
