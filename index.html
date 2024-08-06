@@ -38,7 +38,10 @@
       let blurValue = 0;
       window.addEventListener("deviceorientation", function (event) {
         const value = Math.abs(((event.beta - 90) / 180) * 20);
-        textElement.style.filter = `blur(${value}px)`;
+        if (Date.now() - lastUpdate > 200) {
+          lastUpdate = Date.now();
+          textElement.style.filter = `blur(${value}px)`;
+        }
       });
 
       document.querySelector("button").addEventListener("click", () => {
@@ -47,4 +50,3 @@
     </script>
   </body>
 </html>
-
